@@ -9,51 +9,51 @@ using MongoDB.Driver;
 namespace urlshortener.domain.data
 {
     public class UrlManagerMongo : IUrlManager
-    {
-        private const string CollectionName = "urls";
-        
-        private readonly IMongoDatabase _database;
+    {        
+        private readonly IMongoCollection<UrlModel> _collection;
 
-        public UrlManagerMongo(string connectionString)
+        public UrlManagerMongo(IMongoCollection<UrlModel> collection)
         {
-            var client   = new MongoClient(connectionString);
-            _database = client.GetDatabase(CollectionName);
+            _collection = collection;
+
+            IndexesCreation(_collection);
+        }
+
+        private static void IndexesCreation(IMongoCollection<UrlModel> collection)
+        {
+            // key search and uniqueness
+            collection.Indexes.CreateOne(Builders<UrlModel>.IndexKeys.Ascending(x => x.Key),
+                                         new CreateIndexOptions { Unique = true });
+            // user guid search
+            collection.Indexes.CreateOne(Builders<UrlModel>.IndexKeys.Ascending(x => x.UserGuid));
         }
 
         public async Task AddCounter(string key)
         {
-            var collection = GetCollection();
-
-            await collection.UpdateOneAsync(Builders<UrlModel>.Filter.Eq(x => x.Key, key),
-                                            Builders<UrlModel>.Update.Inc(x => x.ClickCount, 1));
+            await _collection.UpdateOneAsync(Builders<UrlModel>.Filter.Eq(x => x.Key, key),
+                                             Builders<UrlModel>.Update.Inc(x => x.ClickCount, 1));
         }
 
         public async Task AddUrl(UrlModel urlModel)
         {
-            var collection = GetCollection();
+            await _collection.InsertOneAsync(urlModel);
+        }
 
-            await collection.InsertOneAsync(urlModel);
+        public async Task DeleteUrl(string key)
+        {
+            await _collection.DeleteOneAsync(Builders<UrlModel>.Filter.Eq(x => x.Key, key));
         }
 
         public async Task<UrlModel> GetUrlModel(string key)
-        {
-            var collection = GetCollection();
-            
-            return await collection.Find(Builders<UrlModel>.Filter.Eq(x => x.Key, key))
-                                   .FirstOrDefaultAsync();
+        {            
+            return await _collection.Find(Builders<UrlModel>.Filter.Eq(x => x.Key, key))
+                                    .FirstOrDefaultAsync();
         }
 
         public async Task<List<UrlModel>> GetUrlModels(Guid userGuid)
         {
-            var collection = GetCollection();
-
-            return await collection.Find(Builders<UrlModel>.Filter.Eq(x => x.UserGuid, userGuid))
-                                   .ToListAsync();
-        }
-
-        private IMongoCollection<UrlModel> GetCollection()
-        {
-            return _database.GetCollection<UrlModel>(CollectionName);
+            return await _collection.Find(Builders<UrlModel>.Filter.Eq(x => x.UserGuid, userGuid))
+                                    .ToListAsync();
         }
     }
 }

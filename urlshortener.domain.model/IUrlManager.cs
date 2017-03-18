@@ -9,9 +9,12 @@ namespace urlshortener.domain.model
     {
         Task<UrlModel> GetUrlModel(string key);
 
+        // ToDo: [feature] create user manager in the fufture
         Task<List<UrlModel>> GetUrlModels(Guid userGuid);
 
         Task AddUrl(UrlModel urlModel);
+
+        Task DeleteUrl(string key);
 
         Task AddCounter(string key);
     }

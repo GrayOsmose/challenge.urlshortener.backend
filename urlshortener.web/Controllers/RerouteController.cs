@@ -21,7 +21,7 @@ namespace urlshortener.web.Controllers
         }
 
         [HttpGet("{key}")]
-        public async Task<RedirectResult> Get(string key)
+        public async Task<RedirectResult> Get([FromRoute]string key)
         {
             var urlModel = await _urlManager.GetUrlModel(key);
             if (urlModel == null) throw new HttpRequestException($"Couldn't find {nameof(key)}");

@@ -8,8 +8,8 @@ using System.Collections.Generic;
 
 namespace urlshortener.web.Controllers
 {
+    [Route("api/[controller]")]
     [Produces("application/json")]
-    [Route("api/url")]
     public class UrlController : Controller
     {
         private readonly IUrlManager _urlManager;
@@ -20,7 +20,7 @@ namespace urlshortener.web.Controllers
         }
         
         [HttpGet("{userGuid}")]
-        public async Task<List<UrlModel>> Get([FromBody]Guid userGuid)
+        public async Task<List<UrlModel>> Get([FromRoute]Guid userGuid)
         {
             var urls = await _urlManager.GetUrlModels(userGuid);
 
@@ -28,15 +28,24 @@ namespace urlshortener.web.Controllers
         }
 
         [HttpPost("{userGuid}")]
-        public async Task Post([FromRoute]Guid userGuid, [FromBody]UrlModel url)
+        public async Task<UrlModel> Post([FromRoute]Guid userGuid, [FromBody]UrlModel url)
         {
+            if (!ModelState.IsValid) throw new HttpRequestException($"{nameof(url)} is invalid");
+
+            // ToDo : [feature] generate key for url
+            url.Key = string.Empty;
+
             await _urlManager.AddUrl(url);
+            
+            return url;
         }
         
         [HttpDelete("{userGuid}")]
         public async Task Delete([FromRoute]Guid userGuid, [FromBody]string key)
         {
-            // await _urlManager.DeleteUrl(key);
+            if (string.IsNullOrWhiteSpace(key)) throw new HttpRequestException($"{nameof(key)} is invalid");
+
+            await _urlManager.DeleteUrl(key);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace urlshortener.domain.model
@@ -10,6 +11,7 @@ namespace urlshortener.domain.model
 
         public Guid UserGuid { get; set; }
         
+        [Required]
         public string Url { get; set; }
 
         public DateTime CreationDate { get; set; } = DateTime.UtcNow;

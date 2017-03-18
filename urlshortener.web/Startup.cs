@@ -31,9 +31,9 @@ namespace urlshortener.web
         {
             // Add framework services.
             services.AddMvc();
-
+            
             // Add application services.
-            services.AddTransient<IUrlManager, UrlManagerMongo>((serviceProvider) => { return new UrlManagerMongo(Configuration.GetConnectionString("urlshortener_mongo")); });
+            services.AddTransient<IUrlManager, UrlManagerMongo>((serviceProvider) => { return new UrlManagerMongo(MongoStarter.GetCollection<UrlModel>(Configuration.GetConnectionString("urlshortener_mongo"), "urls")); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
