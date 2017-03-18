@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using urlshortener.domain.model;
+using System.Net;
+using System.Net.Http;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace urlshortener.web.Controllers
 {
@@ -11,34 +12,31 @@ namespace urlshortener.web.Controllers
     [Route("api/url")]
     public class UrlController : Controller
     {
-        public UrlController() : base()
-        {
+        private readonly IUrlManager _urlManager;
 
+        public UrlController(IUrlManager urlManager) : base()
+        {
+            _urlManager = urlManager;
+        }
+        
+        [HttpGet("{userGuid}")]
+        public async Task<List<UrlModel>> Get([FromBody]Guid userGuid)
+        {
+            var urls = await _urlManager.GetUrlModels(userGuid);
+
+            return urls;
         }
 
-        // GET api/url/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("{userGuid}")]
+        public async Task Post([FromRoute]Guid userGuid, [FromBody]UrlModel url)
         {
-            return "value";
+            await _urlManager.AddUrl(url);
         }
-
-        // POST api/url
-        [HttpPost]
-        public void Post([FromBody]string value)
+        
+        [HttpDelete("{userGuid}")]
+        public async Task Delete([FromRoute]Guid userGuid, [FromBody]string key)
         {
-        }
-
-        // PUT api/url/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/url/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            // await _urlManager.DeleteUrl(key);
         }
     }
 }
