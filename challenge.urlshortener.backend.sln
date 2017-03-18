@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "urlshortener.web.tests", "u
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{21747B4B-A553-48FA-AC29-2CC1FAE7E9DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "urlshortener.web.integration.tests", "..\urlshortener.web.integration.tests\urlshortener.web.integration.tests.csproj", "{5E4AD0D0-DD13-4E8C-95FA-A07882A11FEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "urlshortener.web.integration.tests", "urlshortener.web.integration.tests\urlshortener.web.integration.tests.csproj", "{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{21747B4B-A553-48FA-AC29-2CC1FAE7E9DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21747B4B-A553-48FA-AC29-2CC1FAE7E9DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21747B4B-A553-48FA-AC29-2CC1FAE7E9DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5E4AD0D0-DD13-4E8C-95FA-A07882A11FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E4AD0D0-DD13-4E8C-95FA-A07882A11FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5E4AD0D0-DD13-4E8C-95FA-A07882A11FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E4AD0D0-DD13-4E8C-95FA-A07882A11FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +59,6 @@ Global
 		{D4DE9861-115C-4847-A65A-8FE302485A7E} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
 		{953837DB-001D-4481-A9A5-AC327D4072C8} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
 		{21747B4B-A553-48FA-AC29-2CC1FAE7E9DB} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
-		{5E4AD0D0-DD13-4E8C-95FA-A07882A11FEF} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
+		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
 	EndGlobalSection
 EndGlobal
