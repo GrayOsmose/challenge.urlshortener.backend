@@ -23,5 +23,9 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\urlshortener.domain.data\urlshortener.domain.data.csproj" />
+    <ProjectReference Include="..\urlshortener.domain.model\urlshortener.domain.model.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using urlshortener.domain.model;
+using urlshortener.domain.data;
 
 namespace urlshortener.web
 {
@@ -29,6 +31,9 @@ namespace urlshortener.web
         {
             // Add framework services.
             services.AddMvc();
+
+            // Add application services.
+            services.AddTransient<IUrlManager, UrlManagerMongo>((serviceProvider) => { return new UrlManagerMongo(Configuration.GetConnectionString("urlshortener_mongo")); });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

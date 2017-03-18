@@ -10,14 +10,13 @@ namespace urlshortener.domain.data
 {
     public class UrlManagerMongo : IUrlManager
     {
-        private const string MongoClientConnectionString = "urlshortener_mongo";
         private const string CollectionName = "urls";
         
         private readonly IMongoDatabase _database;
 
-        public UrlManagerMongo()
+        public UrlManagerMongo(string connectionString)
         {
-            var client   = new MongoClient(MongoClientConnectionString);
+            var client   = new MongoClient(connectionString);
             _database = client.GetDatabase(CollectionName);
         }
 
