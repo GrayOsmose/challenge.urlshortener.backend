@@ -12,9 +12,9 @@ namespace urlshortener.domain.data
     {        
         private readonly IMongoCollection<UrlModel> _collection;
 
-        public UrlManagerMongo(IMongoCollection<UrlModel> collection)
+        public UrlManagerMongo(string connectionString)
         {
-            _collection = collection;
+            _collection = MongoStarter.GetCollection<UrlModel>(connectionString, "urls");
 
             IndexesCreation(_collection);
         }

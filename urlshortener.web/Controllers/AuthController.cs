@@ -8,8 +8,9 @@ namespace urlshortener.web.Controllers
 {
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class UserController : Controller
+    public class AuthController : Controller
     {
+        // ToDo: [feature] authorize and return generated token for data access
         [HttpGet]
         public Guid Get()
         {

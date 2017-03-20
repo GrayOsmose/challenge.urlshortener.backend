@@ -5,7 +5,7 @@ using System.Text;
 
 namespace urlshortener.domain.data
 {
-    public static class MongoStarter
+    internal static class MongoStarter
     {
         public static IMongoCollection<T> GetCollection<T>(string connectionString, string collectionName)
         {
