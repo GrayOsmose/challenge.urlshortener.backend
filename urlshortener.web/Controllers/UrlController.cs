@@ -33,21 +33,21 @@ namespace urlshortener.web.Controllers
             return Ok(urls);
         }
 
-        [HttpPost("{userGuid}")]
+        [HttpPost()]
         public async Task<ActionResult> Post([FromBody]UrlModel url)
         {
             if (!ModelState.IsValid) return BadRequest($"{nameof(url)} is invalid");
 
             url.UserGuid = UserData;
             // ToDo : [feature] generate key for url
-            url.Key = string.Empty;
+            url.Key = Guid.NewGuid().ToString();
 
             await _urlManager.AddUrl(url);
             
             return Ok(url);
         }
         
-        [HttpDelete("{userGuid}")]
+        [HttpDelete()]
         public async Task<ActionResult> Delete([FromBody]string key)
         {
             if (string.IsNullOrWhiteSpace(key)) return NoContent();

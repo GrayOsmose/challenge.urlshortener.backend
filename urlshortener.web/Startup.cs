@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,15 @@ namespace urlshortener.web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSession();
+            // really use token authentification
+            // it should create cookie and user data like guid
+            // store it in browser and use in here
+            services.AddSession(options =>
+            {
+                options.CookieHttpOnly = true;
+                options.CookieName = "User";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
 
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                             .AllowAnyMethod()
