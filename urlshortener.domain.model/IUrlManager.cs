@@ -14,7 +14,7 @@ namespace urlshortener.domain.model
 
         Task AddUrl(UrlModel urlModel);
 
-        Task DeleteUrl(string key);
+        Task DeleteUrl(Guid userGuid, string key);
 
         Task AddCounter(string key);
     }

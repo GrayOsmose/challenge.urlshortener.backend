@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System;
 using System.Collections.Generic;
+using urlshortener.web.Data;
 
 namespace urlshortener.web.Controllers
 {
@@ -18,34 +19,42 @@ namespace urlshortener.web.Controllers
         {
             _urlManager = urlManager;
         }
-        
-        [HttpGet("{userGuid}")]
-        public async Task<List<UrlModel>> Get([FromRoute]Guid userGuid)
-        {
-            var urls = await _urlManager.GetUrlModels(userGuid);
 
-            return urls;
+        private Guid UserData
+        {
+            get { return Storage.GetUserData(HttpContext.Session); }
+        }
+
+        [HttpGet()]
+        public async Task<ActionResult> Get()
+        {
+            var urls = await _urlManager.GetUrlModels(UserData);
+
+            return Ok(urls);
         }
 
         [HttpPost("{userGuid}")]
-        public async Task<UrlModel> Post([FromRoute]Guid userGuid, [FromBody]UrlModel url)
+        public async Task<ActionResult> Post([FromBody]UrlModel url)
         {
-            if (!ModelState.IsValid) throw new HttpRequestException($"{nameof(url)} is invalid");
+            if (!ModelState.IsValid) return BadRequest($"{nameof(url)} is invalid");
 
+            url.UserGuid = UserData;
             // ToDo : [feature] generate key for url
             url.Key = string.Empty;
 
             await _urlManager.AddUrl(url);
             
-            return url;
+            return Ok(url);
         }
         
         [HttpDelete("{userGuid}")]
-        public async Task Delete([FromRoute]Guid userGuid, [FromBody]string key)
+        public async Task<ActionResult> Delete([FromBody]string key)
         {
-            if (string.IsNullOrWhiteSpace(key)) throw new HttpRequestException($"{nameof(key)} is invalid");
+            if (string.IsNullOrWhiteSpace(key)) return NoContent();
 
-            await _urlManager.DeleteUrl(key);
+            await _urlManager.DeleteUrl(UserData, key);
+
+            return Ok(key);
         }
     }
 }

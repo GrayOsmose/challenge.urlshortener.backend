@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using urlshortener.domain.model;
 using urlshortener.domain.data;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace urlshortener.web
 {
@@ -29,9 +27,15 @@ namespace urlshortener.web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
+
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                            .AllowAnyMethod()
+                                                                            .AllowAnyHeader()));
+
             // Add framework services.
             services.AddMvc();
-            
+
             // Add application services.
             services.AddTransient<IUrlManager, UrlManagerMongo>((serviceProvider) => { return new UrlManagerMongo(MongoStarter.GetCollection<UrlModel>(Configuration.GetConnectionString("urlshortener_mongo"), "urls")); });
         }
@@ -41,6 +45,10 @@ namespace urlshortener.web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            app.UseSession();
+            // allow request from anyone
+            app.UseCors("AllowAll");
 
             app.UseMvc();
         }

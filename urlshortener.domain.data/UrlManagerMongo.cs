@@ -39,9 +39,10 @@ namespace urlshortener.domain.data
             await _collection.InsertOneAsync(urlModel);
         }
 
-        public async Task DeleteUrl(string key)
+        public async Task DeleteUrl(Guid userGuid, string key)
         {
-            await _collection.DeleteOneAsync(Builders<UrlModel>.Filter.Eq(x => x.Key, key));
+            await _collection.DeleteOneAsync(Builders<UrlModel>.Filter.And(Builders<UrlModel>.Filter.Eq(x => x.Key, key),
+                                                                           Builders<UrlModel>.Filter.Eq(x => x.UserGuid, userGuid)));
         }
 
         public async Task<UrlModel> GetUrlModel(string key)
