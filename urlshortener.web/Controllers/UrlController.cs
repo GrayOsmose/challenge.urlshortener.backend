@@ -1,11 +1,9 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using urlshortener.domain.model;
-using System.Net;
-using System.Net.Http;
-using System;
-using System.Collections.Generic;
-using urlshortener.web.Data;
+
+using IKeyManager = urlshortener.web.Data.IKeyManager;
 
 namespace urlshortener.web.Controllers
 {
@@ -14,15 +12,18 @@ namespace urlshortener.web.Controllers
     public class UrlController : Controller
     {
         private readonly IUrlManager _urlManager;
+        private readonly IKeyManager _keyManager;
 
-        public UrlController(IUrlManager urlManager) : base()
+        public UrlController(IUrlManager urlManager, IKeyManager keyManager) : base()
         {
             _urlManager = urlManager;
+            _keyManager = keyManager;
         }
 
         private Guid UserData
         {
-            get { return Storage.GetUserData(HttpContext.Session); }
+            // get my user
+            get { return (Guid)HttpContext.Items["User"]; }
         }
 
         [HttpGet()]
@@ -39,8 +40,7 @@ namespace urlshortener.web.Controllers
             if (!ModelState.IsValid) return BadRequest($"{nameof(url)} is invalid");
 
             url.UserGuid = UserData;
-            // ToDo : [feature] generate key for url
-            url.Key = Guid.NewGuid().ToString();
+            url.Key = _keyManager.GenerateKey(url.UserGuid, url.Url);
 
             await _urlManager.AddUrl(url);
             

@@ -8,6 +8,9 @@ using Microsoft.Extensions.Logging;
 using urlshortener.domain.model;
 using urlshortener.domain.data;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using urlshortener.web.Middleware;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using urlshortener.web.Data;
 
 namespace urlshortener.web
 {
@@ -28,16 +31,6 @@ namespace urlshortener.web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // really use token authentification
-            // it should create cookie and user data like guid
-            // store it in browser and use in here
-            services.AddSession(options =>
-            {
-                options.CookieHttpOnly = true;
-                options.CookieName = "User";
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-            });
-
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                             .AllowAnyMethod()
                                                                             .AllowAnyHeader()));
@@ -47,6 +40,7 @@ namespace urlshortener.web
 
             // Add application services.
             services.AddTransient<IUrlManager, UrlManagerMongo>((serviceProvider) => { return new UrlManagerMongo(Configuration.GetConnectionString("urlshortener_mongo")); });
+            services.AddTransient<Data.IKeyManager, KeyManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +49,9 @@ namespace urlshortener.web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseSession();
+            // use identity cookie middleware to track connection
+            app.CookieIdentityMiddleware();
+
             // allow request from anyone
             app.UseCors("AllowAll");
 

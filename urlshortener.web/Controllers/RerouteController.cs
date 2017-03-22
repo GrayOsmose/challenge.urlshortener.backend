@@ -14,8 +14,10 @@ namespace urlshortener.web.Controllers
     public class RerouteController : Controller
     {
         private readonly IUrlManager _urlManager;
+        // use it to parse key
+        // private readonly IKeyManager _keyManager;
 
-        public RerouteController(IUrlManager urlManager) : base()
+        public RerouteController(IUrlManager urlManager/*, IKeyManager keyManager*/) : base()
         {
             _urlManager = urlManager;
         }
@@ -23,6 +25,7 @@ namespace urlshortener.web.Controllers
         [HttpGet("{key}")]
         public async Task<ActionResult> Get([FromRoute]string key)
         {
+            // parse key to generate url with userGuid
             var urlModel = await _urlManager.GetUrlModel(key);
             if (urlModel == null) return NoContent();
 
