@@ -47,8 +47,8 @@ namespace urlshortener.web.Controllers
             return Ok(url);
         }
         
-        [HttpDelete()]
-        public async Task<ActionResult> Delete([FromBody]string key)
+        [HttpDelete("{key}")]
+        public async Task<ActionResult> Delete([FromRoute]string key)
         {
             if (string.IsNullOrWhiteSpace(key)) return NoContent();
 

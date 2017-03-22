@@ -33,7 +33,8 @@ namespace urlshortener.web
         {
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                             .AllowAnyMethod()
-                                                                            .AllowAnyHeader()));
+                                                                            .AllowAnyHeader()
+                                                                            .AllowCredentials()));
 
             // Add framework services.
             services.AddMvc();
@@ -49,11 +50,12 @@ namespace urlshortener.web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            // use identity cookie middleware to track connection
-            app.CookieIdentityMiddleware();
-
             // allow request from anyone
             app.UseCors("AllowAll");
+
+            // use identity cookie middleware to track connection
+            app.CookieIdentityMiddleware();
+            
 
             app.UseMvc();
         }

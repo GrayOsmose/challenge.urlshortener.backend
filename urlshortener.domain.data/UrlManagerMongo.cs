@@ -48,12 +48,14 @@ namespace urlshortener.domain.data
         public async Task<UrlModel> GetUrlModel(string key)
         {            
             return await _collection.Find(Builders<UrlModel>.Filter.Eq(x => x.Key, key))
+                                    .Project<UrlModel>(Builders<UrlModel>.Projection.Exclude(x => x._id))
                                     .FirstOrDefaultAsync();
         }
 
         public async Task<List<UrlModel>> GetUrlModels(Guid userGuid)
         {
             return await _collection.Find(Builders<UrlModel>.Filter.Eq(x => x.UserGuid, userGuid))
+                                    .Project<UrlModel>(Builders<UrlModel>.Projection.Exclude(x => x._id))
                                     .ToListAsync();
         }
     }

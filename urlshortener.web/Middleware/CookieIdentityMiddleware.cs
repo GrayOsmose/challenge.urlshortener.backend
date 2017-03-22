@@ -25,7 +25,6 @@ namespace urlshortener.web.Middleware
             userGuid = cookie != null ? Guid.Parse(cookie)
                                       : CreateIdentityCookie(context);
 
-
             context.Items.Add("User", userGuid);
 
             await _next.Invoke(context);
@@ -38,7 +37,7 @@ namespace urlshortener.web.Middleware
             var options = new CookieOptions
                               {
                                   // you are internal my love
-                                  Expires = null,
+                                  Expires = DateTimeOffset.MaxValue,
                                   // no one steals my precious cookie
                                   HttpOnly = true,
                                   // for now

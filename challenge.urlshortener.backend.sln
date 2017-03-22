@@ -19,8 +19,6 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "urlshortener.web.integration.tests", "urlshortener.web.integration.tests\urlshortener.web.integration.tests.csproj", "{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "urlshortener.domain.data.integration.tests", "..\urlshortener.domain.data.integration.tests\urlshortener.domain.data.integration.tests.csproj", "{D003E25E-B944-4CCC-8AA1-8E3B47B256B2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,10 +49,6 @@ Global
 		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D003E25E-B944-4CCC-8AA1-8E3B47B256B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D003E25E-B944-4CCC-8AA1-8E3B47B256B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D003E25E-B944-4CCC-8AA1-8E3B47B256B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D003E25E-B944-4CCC-8AA1-8E3B47B256B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +60,5 @@ Global
 		{953837DB-001D-4481-A9A5-AC327D4072C8} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
 		{21747B4B-A553-48FA-AC29-2CC1FAE7E9DB} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
 		{375BAABB-1FF0-4211-9DDC-7F662FD8E38E} = {57D6491B-EDBD-489D-A604-C83BCA19C172}
-		{D003E25E-B944-4CCC-8AA1-8E3B47B256B2} = {3BA7C0A2-EBC5-4E55-A398-D7E8BC315B26}
 	EndGlobalSection
 EndGlobal

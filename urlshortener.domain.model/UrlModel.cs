@@ -7,6 +7,9 @@ namespace urlshortener.domain.model
 {
     public class UrlModel
     {
+        // ToD: [refactoring] [architecture] think about mongo id
+        public string _id { get; set; }
+
         public string Key { get; set; }
 
         public Guid UserGuid { get; set; }
