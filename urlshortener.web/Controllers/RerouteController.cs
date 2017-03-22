@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using urlshortener.domain.model;
+using System.Net;
 
 namespace urlshortener.web.Controllers
 {
     [Produces("application/json")]
+    // ToDo: [refactoring] make path cuter later
     [Route("api/r")]
     public class RerouteController : Controller
     {
@@ -31,8 +33,8 @@ namespace urlshortener.web.Controllers
 
             // ToDo : [feature] check if we can run separately
             await _urlManager.AddCounter(key);
-            
-            return new RedirectResult(url: urlModel.Url, permanent: true);
+
+            return RedirectPermanent(urlModel.Url);
         }
     }
 }
