@@ -29,7 +29,7 @@ namespace urlshortener.web.Controllers
         {
             // parse key to generate url with userGuid
             var urlModel = await _urlManager.GetUrlModel(key);
-            if (urlModel == null) return NoContent();
+            if (urlModel == null) return BadRequest($"{nameof(key)} is invalid");
 
             // ToDo : [feature] check if we can run separately
             await _urlManager.AddCounter(key);

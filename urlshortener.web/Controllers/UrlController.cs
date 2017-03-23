@@ -50,7 +50,7 @@ namespace urlshortener.web.Controllers
         [HttpDelete("{key}")]
         public async Task<ActionResult> Delete([FromRoute]string key)
         {
-            if (string.IsNullOrWhiteSpace(key)) return NoContent();
+            if (string.IsNullOrWhiteSpace(key)) return BadRequest($"{nameof(key)} is invalid");
 
             await _urlManager.DeleteUrl(UserData, key);
 

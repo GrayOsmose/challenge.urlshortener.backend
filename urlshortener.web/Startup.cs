@@ -55,7 +55,6 @@ namespace urlshortener.web
 
             // use identity cookie middleware to track connection
             app.CookieIdentityMiddleware();
-            
 
             app.UseMvc();
         }
