@@ -34,7 +34,18 @@ namespace urlshortener.web.Controllers
             // ToDo : [feature] check if we can run separately
             await _urlManager.AddCounter(key);
 
-            return RedirectPermanent(urlModel.Url);
+            return RedirectPermanent(ManageUrl(urlModel.Url));
+        }
+
+        private static string ManageUrl(string url)
+        {
+            if (url.StartsWith("http://")
+                || url.StartsWith("https://"))
+            {
+                return url;
+            }
+
+            return "http://" + url;
         }
     }
 }
